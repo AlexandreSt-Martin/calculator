@@ -1,0 +1,102 @@
+package seg3x02.calculator
+
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+
+@Controller
+class WebController{
+	@ModelAttribute
+	fun addAttributes(model:Model){
+		model.addAttribute("error","")
+		model.addAttribute("num1","")
+		model.addAttribute("num2","")
+		model.addAttribute("result","")
+	}
+	
+	@RequestMapping("/")
+	fun home():String{
+		return "home"
+	}
+	
+	@GetMapping(value = ["/ops"])
+	fun doOps(
+	@RequestParam(value = "num1", required = false) num1: String,
+	@RequestParam(value = "num2", required = false) num2: String,
+	@RequestParam(value = "operation", required = false) operation: String,
+	@RequestParam(value = "result", required = false) result: String,
+	model: Model
+	): String{
+		var num1Val: Double
+		var num2Val: Double
+		var resultVal: Double
+		when (operation){
+			"+" ->
+			try{
+				num1Val = num1.toDouble()
+				num2Val = num2.toDouble()
+				resultVal = num1Val + num2Val
+				model.addAttribute("num1", num1)
+				model.addAttribute("num2", num2)
+				model.addAttribute("result", String.format("%.2f", resultVal))
+			} catch (exp: NumberFormatException){
+				model.addAttribute("error", "NumberFormatError")
+				model.addAttribute("num1" num1)
+				model.addAttribute("num2" num2)
+				model.addAttribute("result", result)
+			}
+			"-" ->
+			try{
+				num1Val = num1.toDouble()
+				num2Val = num2.toDouble()
+				resultVal = num1Val - num2Val
+				model.addAttribute("num1", num1)
+				model.addAttribute("num2", num2)
+				model.addAttribute("result", String.format("%.2f", resultVal))
+			} catch (exp: NumberFormatException){
+				model.addAttribute("error", "NumberFormatError")
+				model.addAttribute("num1" num1)
+				model.addAttribute("num2" num2)
+				model.addAttribute("result", result)
+			}
+			"*" ->
+			try{
+				num1Val = num1.toDouble()
+				num2Val = num2.toDouble()
+				resultVal = num1Val * num2Val
+				model.addAttribute("num1", num1)
+				model.addAttribute("num2", num2)
+				model.addAttribute("result", String.format("%.2f", resultVal))
+			} catch (exp: NumberFormatException){
+				model.addAttribute("error", "NumberFormatError")
+				model.addAttribute("num1" num1)
+				model.addAttribute("num2" num2)
+				model.addAttribute("result", result)
+			}
+			"/" ->
+			try{
+				num1Val = num1.toDouble()
+				num2Val = num2.toDouble()
+				resultVal = num1Val / num2Val
+				model.addAttribute("num1", num1)
+				model.addAttribute("num2", num2)
+				model.addAttribute("result", String.format("%.2f", resultVal))
+			} catch (exp: NumberFormatException){
+				model.addAttribute("error", "NumberFormatError")
+				model.addAttribute("num1" num1)
+				model.addAttribute("num2" num2)
+				model.addAttribute("result", result)
+			}
+			else -> {
+				model.addAttribute("error","OperationFormatError")
+				model.addAttribute("num1", num1)
+				model.addAttribute("num2", num2)
+				model.addAttribute("result", result)
+			}
+		}
+		return "home"
+	}
+}
